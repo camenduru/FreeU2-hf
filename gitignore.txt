@@ -1,0 +1,4 @@
+experiments/*
+trash/*
+scripts/*
+__pycache__/*
