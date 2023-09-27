@@ -12,26 +12,11 @@ from muse import PipelineMuse
 from diffusers import AutoPipelineForText2Image, UniPCMultistepScheduler
 
 
-if sd_options == 'SD1.4':
-    model_id = "CompVis/stable-diffusion-v1-4"
-elif sd_options == 'SD1.5':
-    model_id = "runwayml/stable-diffusion-v1-5"
-elif sd_options == 'SD2.1':
-    model_id = "stabilityai/stable-diffusion-2-1"
+
+
+def infer(prompt, pip_sd, pip_freeu):
     
-pip_sd = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-pip_sd = pip_sd.to("cuda")
 
-
-pip_freeu = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-pip_freeu = pip_freeu.to("cuda")
-# -------- freeu block registration
-register_free_upblock2d(pipe, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
-register_free_crossattn_upblock2d(pipe, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
-# -------- freeu block registration
-
-
-def infer(prompt):
 
     print("Generating SD:")
     sd_image = pip_sd(prompt).images[0]  
@@ -122,6 +107,23 @@ with block:
         
         with gr.Accordion('FreeU Parameters', open=False):
             sd_options = gr.Dropdown(options, label="SD options")
+            if sd_options == 'SD1.4':
+                model_id = "CompVis/stable-diffusion-v1-4"
+            elif sd_options == 'SD1.5':
+                model_id = "runwayml/stable-diffusion-v1-5"
+            elif sd_options == 'SD2.1':
+                model_id = "stabilityai/stable-diffusion-2-1"
+                
+            pip_sd = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+            pip_sd = pip_sd.to("cuda")
+
+
+            pip_freeu = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+            pip_freeu = pip_freeu.to("cuda")
+            # -------- freeu block registration
+            register_free_upblock2d(pipe, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
+            register_free_crossattn_upblock2d(pipe, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
+            # -------- freeu block registration
 
             b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
                                     minimum=1,
@@ -156,7 +158,7 @@ with block:
     ex = gr.Examples(examples=examples, fn=infer, inputs=[text], outputs=[image_1, image_2], cache_examples=False)
     ex.dataset.headers = [""]
 
-    text.submit(infer, inputs=[text], outputs=[image_1, image_2])
-    btn.click(infer, inputs=[text], outputs=[image_1, image_2])
+    text.submit(infer, inputs=[text, pip_sd, pip_freeu], outputs=[image_1, image_2])
+    btn.click(infer, inputs=[text, pip_sd, pip_freeu], outputs=[image_1, image_2])
 
 block.launch()
