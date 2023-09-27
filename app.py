@@ -90,18 +90,16 @@ h1 {
 }
 """
 
-block = gr.Blocks(css='style.css')
+block = gr.Blocks(css=css)
 
 options = ['SD1.4', 'SD1.5', 'SD2.1']
 
 with block:
     gr.Markdown("SD vs. FreeU.")
     with gr.Group():
+        sd_options = gr.Dropdown(options, value='SD1.4', label="SD options")
+        model_id = "CompVis/stable-diffusion-v1-4"
         with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
-
-            sd_options = gr.Dropdown(options, value='SD1.4', label="SD options")
-            model_id = "CompVis/stable-diffusion-v1-4"
-            
             with gr.Column():
                 text = gr.Textbox(
                     label="Enter your prompt",
