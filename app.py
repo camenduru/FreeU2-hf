@@ -117,16 +117,15 @@ with block:
             elif sd_options == 'SD2.1':
                 model_id = "stabilityai/stable-diffusion-2-1"
                 
-            pip_sd = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-            pip_sd = pip_sd.to("cuda")
+            # pip_sd = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+            # pip_sd = pip_sd.to("cuda")
 
-
-            pip_freeu = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-            pip_freeu = pip_freeu.to("cuda")
-            # -------- freeu block registration
-            register_free_upblock2d(pipe, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
-            register_free_crossattn_upblock2d(pipe, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
-            # -------- freeu block registration
+            # pip_freeu = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+            # pip_freeu = pip_freeu.to("cuda")
+            # # -------- freeu block registration
+            # register_free_upblock2d(pipe, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
+            # register_free_crossattn_upblock2d(pipe, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
+            # # -------- freeu block registration
 
             b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
                                     minimum=1,
