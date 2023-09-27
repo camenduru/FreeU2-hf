@@ -148,6 +148,11 @@ with block:
                                     maximum=1,
                                     step=0.1,
                                     value=1)
+            s3 = gr.Slider(label='s3: skip factor of the second stage block of decoder',
+                                    minimum=0,
+                                    maximum=1,
+                                    step=0.1,
+                                    value=1)
 
         with gr.Row():
             with gr.Column(min_width=256) as c1:
