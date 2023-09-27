@@ -1,17 +1,16 @@
+import gradio as gr
+from PIL import Image  
+import torch
+from muse import PipelineMuse
+# from diffusers import AutoPipelineForText2Image, UniPCMultistepScheduler
+
+
 # import argparse, os, sys, glob
 # sys.path.append(os.path.split(sys.path[0])[0])
 
 from diffusers import StableDiffusionPipeline
 import torch
 from free_lunch_utils import register_free_upblock2d, register_free_crossattn_upblock2d
-
-import gradio as gr
-from PIL import Image  
-import torch
-from muse import PipelineMuse
-from diffusers import AutoPipelineForText2Image, UniPCMultistepScheduler
-
-
 
 
 def infer(prompt, pip_sd, pip_freeu):
