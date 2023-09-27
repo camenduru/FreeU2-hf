@@ -107,6 +107,9 @@ with block:
         
         with gr.Accordion('FreeU Parameters', open=False):
             sd_options = gr.Dropdown(options, label="SD options")
+            
+            model_id = "CompVis/stable-diffusion-v1-4"
+            
             if sd_options == 'SD1.4':
                 model_id = "CompVis/stable-diffusion-v1-4"
             elif sd_options == 'SD1.5':
