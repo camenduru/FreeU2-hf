@@ -114,7 +114,8 @@ with block:
                     placeholder="Enter your prompt",
                     container=False,
                 )
-            btn = gr.Button("Generate image", scale=0)
+            # btn = gr.Button("Generate image", scale=0)
+            btn = gr.Button("Generate image")
 
         # sd_options = gr.Dropdown(options, value='SD1.4', label="SD options")
         # model_id = "CompVis/stable-diffusion-v1-4"
