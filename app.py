@@ -20,10 +20,10 @@ pip_sd = pip_sd.to("cuda")
 
 pip_freeu = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 pip_freeu = pip_freeu.to("cuda")
-# -------- freeu block registration
-register_free_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
-register_free_crossattn_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
-# -------- freeu block registration
+# # -------- freeu block registration
+# register_free_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
+# register_free_crossattn_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
+# # -------- freeu block registration
 
 def infer(prompt):
     
