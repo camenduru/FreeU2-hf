@@ -105,16 +105,16 @@ with block:
                 )
             btn = gr.Button("Generate image", scale=0)
 
-        # sd_options = gr.Dropdown(options, label="SD options")
-        sd_options = gr.Dropdown(options, value='SD1.4', label="SD options")
-        # model_id = "CompVis/stable-diffusion-v1-4"
+        # # sd_options = gr.Dropdown(options, label="SD options")
+        # sd_options = gr.Dropdown(options, value='SD1.4', label="SD options")
+        # # model_id = "CompVis/stable-diffusion-v1-4"
         
-        if sd_options == 'SD1.4':
-            model_id = "CompVis/stable-diffusion-v1-4"
-        elif sd_options == 'SD1.5':
-            model_id = "runwayml/stable-diffusion-v1-5"
-        elif sd_options == 'SD2.1':
-            model_id = "stabilityai/stable-diffusion-2-1"
+        # if sd_options == 'SD1.4':
+        #     model_id = "CompVis/stable-diffusion-v1-4"
+        # elif sd_options == 'SD1.5':
+        #     model_id = "runwayml/stable-diffusion-v1-5"
+        # elif sd_options == 'SD2.1':
+        #     model_id = "stabilityai/stable-diffusion-2-1"
             
         # pip_sd = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
         # pip_sd = pip_sd.to("cuda")
