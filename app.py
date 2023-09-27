@@ -87,7 +87,7 @@ h1 {
 }
 """
 
-block = gr.Blocks(css=css)
+block = gr.Blocks(css='style.css')
 
 options = ['SD1.4', 'SD1.5', 'SD2.1']
 
