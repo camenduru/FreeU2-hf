@@ -14,10 +14,10 @@ pip_sd = pip_sd.to("cuda")
 
 pip_freeu = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 pip_freeu = pip_freeu.to("cuda")
-# -------- freeu block registration
-register_free_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
-register_free_crossattn_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
-# -------- freeu block registration
+# # -------- freeu block registration
+# register_free_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
+# register_free_crossattn_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
+# # -------- freeu block registration
 
 def infer(prompt):
     
@@ -110,48 +110,27 @@ with block:
                 )
             btn = gr.Button("Generate image", scale=0)
 
-        # sd_options = gr.Dropdown(options, value='SD1.4', label="SD options")
-        # model_id = "CompVis/stable-diffusion-v1-4"
-        
-        # if sd_options == 'SD1.4':
-        #     model_id = "CompVis/stable-diffusion-v1-4"
-        # elif sd_options == 'SD1.5':
-        #     model_id = "runwayml/stable-diffusion-v1-5"
-        # elif sd_options == 'SD2.1':
-        #     model_id = "stabilityai/stable-diffusion-2-1"
-            
-        # pip_sd = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-        # pip_sd = pip_sd.to("cuda")
-
-        # pip_freeu = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-        # pip_freeu = pip_freeu.to("cuda")
-        # # -------- freeu block registration
-        # register_free_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
-        # register_free_crossattn_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
-        # # -------- freeu block registration
-        
-        # with gr.Accordion('FreeU Parameters', open=False):
-            
-        b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
-                                minimum=1,
-                                maximum=1.6,
-                                step=0.1,
-                                value=1)
-        b2 = gr.Slider(label='b2: backbone factor of the second stage block of decoder',
-                                minimum=1,
-                                maximum=1.6,
-                                step=0.1,
-                                value=1)
-        s1 = gr.Slider(label='s1: skip factor of the first stage block of decoder',
-                                minimum=0,
-                                maximum=1,
-                                step=0.1,
-                                value=1)
-        s2 = gr.Slider(label='s2: skip factor of the second stage block of decoder',
-                                minimum=0,
-                                maximum=1,
-                                step=0.1,
-                                value=1)
+        with gr.Accordion('FreeU Parameters', open=False):
+            b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
+                                    minimum=1,
+                                    maximum=1.6,
+                                    step=0.1,
+                                    value=1)
+            b2 = gr.Slider(label='b2: backbone factor of the second stage block of decoder',
+                                    minimum=1,
+                                    maximum=1.6,
+                                    step=0.1,
+                                    value=1)
+            s1 = gr.Slider(label='s1: skip factor of the first stage block of decoder',
+                                    minimum=0,
+                                    maximum=1,
+                                    step=0.1,
+                                    value=1)
+            s2 = gr.Slider(label='s2: skip factor of the second stage block of decoder',
+                                    minimum=0,
+                                    maximum=1,
+                                    step=0.1,
+                                    value=1)
         
         with gr.Row():
             with gr.Column(min_width=256) as c1:
