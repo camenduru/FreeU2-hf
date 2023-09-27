@@ -1,15 +1,8 @@
 import gradio as gr
 from PIL import Image  
 import torch
-from muse import PipelineMuse
-# from diffusers import AutoPipelineForText2Image, UniPCMultistepScheduler
-
-
-# import argparse, os, sys, glob
-# sys.path.append(os.path.split(sys.path[0])[0])
 
 from diffusers import StableDiffusionPipeline
-import torch
 from free_lunch_utils import register_free_upblock2d, register_free_crossattn_upblock2d
 
 torch.manual_seed(42)
@@ -114,8 +107,7 @@ with block:
                     placeholder="Enter your prompt",
                     container=False,
                 )
-            # btn = gr.Button("Generate image", scale=0)
-            btn = gr.Button("Generate image")
+            btn = gr.Button("Generate image", scale=0)
 
         # sd_options = gr.Dropdown(options, value='SD1.4', label="SD options")
         # model_id = "CompVis/stable-diffusion-v1-4"
@@ -137,28 +129,28 @@ with block:
         # register_free_crossattn_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
         # # -------- freeu block registration
         
-        with gr.Accordion('FreeU Parameters', open=False):
+        # with gr.Accordion('FreeU Parameters', open=False):
             
-            b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
-                                    minimum=1,
-                                    maximum=1.6,
-                                    step=0.1,
-                                    value=1)
-            b2 = gr.Slider(label='b2: backbone factor of the second stage block of decoder',
-                                    minimum=1,
-                                    maximum=1.6,
-                                    step=0.1,
-                                    value=1)
-            s1 = gr.Slider(label='s1: skip factor of the first stage block of decoder',
-                                    minimum=0,
-                                    maximum=1,
-                                    step=0.1,
-                                    value=1)
-            s2 = gr.Slider(label='s2: skip factor of the second stage block of decoder',
-                                    minimum=0,
-                                    maximum=1,
-                                    step=0.1,
-                                    value=1)
+        b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
+                                minimum=1,
+                                maximum=1.6,
+                                step=0.1,
+                                value=1)
+        b2 = gr.Slider(label='b2: backbone factor of the second stage block of decoder',
+                                minimum=1,
+                                maximum=1.6,
+                                step=0.1,
+                                value=1)
+        s1 = gr.Slider(label='s1: skip factor of the first stage block of decoder',
+                                minimum=0,
+                                maximum=1,
+                                step=0.1,
+                                value=1)
+        s2 = gr.Slider(label='s2: skip factor of the second stage block of decoder',
+                                minimum=0,
+                                maximum=1,
+                                step=0.1,
+                                value=1)
         
         with gr.Row():
             with gr.Column(min_width=256) as c1:
