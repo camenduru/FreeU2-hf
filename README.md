@@ -1,8 +1,8 @@
 ---
 title: FreeU
 emoji: 🐠
-colorFrom: purple
-colorTo: red
+colorFrom: pink
+colorTo: purple
 sdk: gradio
 sdk_version: 3.23.0
 app_file: app.py
