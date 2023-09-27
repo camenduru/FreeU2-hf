@@ -5,8 +5,8 @@ import torch
 from diffusers import StableDiffusionPipeline
 from free_lunch_utils import register_free_upblock2d, register_free_crossattn_upblock2d
 
-torch.manual_seed(42)
 
+torch.manual_seed(42)
 model_id = "CompVis/stable-diffusion-v1-4"
         
 pip_sd = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
@@ -90,8 +90,7 @@ h1 {
 }
 """
 
-# block = gr.Blocks(css='style.css')
-block = gr.Blocks(css=css)
+block = gr.Blocks(css='style.css')
 
 options = ['SD1.4', 'SD1.5', 'SD2.1']
 
@@ -99,6 +98,10 @@ with block:
     gr.Markdown("SD vs. FreeU.")
     with gr.Group():
         with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
+
+            sd_options = gr.Dropdown(options, value='SD1.4', label="SD options")
+            model_id = "CompVis/stable-diffusion-v1-4"
+            
             with gr.Column():
                 text = gr.Textbox(
                     label="Enter your prompt",
