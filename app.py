@@ -168,4 +168,5 @@ with block:
     # text.submit(infer, inputs=[text, pip_sd, pip_freeu], outputs=[image_1, image_2])
     # btn.click(infer, inputs=[text, pip_sd, pip_freeu], outputs=[image_1, image_2])
 
-block.launch(share=True)
+# block.launch()
+block.queue(default_enabled=False).launch(share=False)
