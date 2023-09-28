@@ -6,8 +6,7 @@ from diffusers import StableDiffusionPipeline
 from free_lunch_utils import register_free_upblock2d, register_free_crossattn_upblock2d
 
 
-# model_id = "CompVis/stable-diffusion-v1-4"
-model_id = "stable-diffusion-v1-4"
+model_id = "CompVis/stable-diffusion-v1-4"
 pip_1_4 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 pip_1_4 = pip_1_4.to("cuda")
 
