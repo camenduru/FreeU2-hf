@@ -6,6 +6,13 @@ from diffusers import StableDiffusionPipeline
 from free_lunch_utils import register_free_upblock2d, register_free_crossattn_upblock2d
 
 
+# if sd_options == 'SD1.5':
+# model = "runwayml/stable-diffusion-v1-5"
+# elif sd_options == 'SD2.1':
+# model = "stabilityai/stable-diffusion-2-1"
+# else:
+# model = "CompVis/stable-diffusion-v1-4"
+
 torch.manual_seed(42)
 model_id = "CompVis/stable-diffusion-v1-4"
         
@@ -22,7 +29,7 @@ model_id = "CompVis/stable-diffusion-v1-4"
 pip = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 pip = pip.to("cuda")
 
-def infer(prompt, seed, b1, b2, s1, s2):
+def infer(prompt, sd_model, seed, b1, b2, s1, s2):
 
     # pip = StableDiffusionPipeline.from_pretrained(model, torch_dtype=torch.float16)
     # pip = pip.to("cuda")
@@ -116,11 +123,11 @@ with block:
             sd_options = gr.Dropdown(["SD1.4", "SD1.5", "SD2.1"], label="SD options")
 
             if sd_options == 'SD1.5':
-                model = "runwayml/stable-diffusion-v1-5"
+                sd_model = 1.5
             elif sd_options == 'SD2.1':
-                model = "stabilityai/stable-diffusion-2-1"
+                sd_model = 2.1
             else:
-                model = "CompVis/stable-diffusion-v1-4"
+                sd_model = 1.4
             
             # pip = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
             # pip = pip.to("cuda")
@@ -184,11 +191,11 @@ with block:
                     image_2_label = gr.Markdown("FreeU")
         
         
-    ex = gr.Examples(examples=examples, fn=infer, inputs=[text, seed, b1, b2, s1, s2], outputs=[image_1, image_2], cache_examples=False)
+    ex = gr.Examples(examples=examples, fn=infer, inputs=[text, sd_model, seed, b1, b2, s1, s2], outputs=[image_1, image_2], cache_examples=False)
     ex.dataset.headers = [""]
 
-    text.submit(infer, inputs=[text, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
-    btn.click(infer, inputs=[text, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
+    text.submit(infer, inputs=[text, sd_model, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
+    btn.click(infer, inputs=[text, sd_model, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
 
 block.launch()
 # block.queue(default_enabled=False).launch(share=False)
