@@ -108,7 +108,33 @@ with block:
                 placeholder="Enter your prompt",
                 container=False,
             )
-                
+
+
+    with gr.Group():
+        with gr.Row():
+            with gr.Accordion('FreeU Parameters: b', open=True):
+                b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
+                                        minimum=1,
+                                        maximum=1.6,
+                                        step=0.1,
+                                        value=1)
+                b2 = gr.Slider(label='b2: backbone factor of the second stage block of decoder',
+                                        minimum=1,
+                                        maximum=1.6,
+                                        step=0.1,
+                                        value=1)
+            with gr.Accordion('FreeU Parameters: s', open=True):
+                s1 = gr.Slider(label='s1: skip factor of the first stage block of decoder',
+                                        minimum=0,
+                                        maximum=1,
+                                        step=0.1,
+                                        value=1)
+                s2 = gr.Slider(label='s2: skip factor of the second stage block of decoder',
+                                        minimum=0,
+                                        maximum=1,
+                                        step=0.1,
+                                        value=1)
+            
             
                     
     with gr.Row():
@@ -122,27 +148,6 @@ with block:
         with gr.Group():
             btn = gr.Button("Generate image", scale=0)
             
-            with gr.Accordion('FreeU Parameters', open=False):
-                    b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
-                                            minimum=1,
-                                            maximum=1.6,
-                                            step=0.1,
-                                            value=1)
-                    b2 = gr.Slider(label='b2: backbone factor of the second stage block of decoder',
-                                            minimum=1,
-                                            maximum=1.6,
-                                            step=0.1,
-                                            value=1)
-                    s1 = gr.Slider(label='s1: skip factor of the first stage block of decoder',
-                                            minimum=0,
-                                            maximum=1,
-                                            step=0.1,
-                                            value=1)
-                    s2 = gr.Slider(label='s2: skip factor of the second stage block of decoder',
-                                            minimum=0,
-                                            maximum=1,
-                                            step=0.1,
-                                            value=1)
             with gr.Row():
                 with gr.Column(min_width=256) as c2:
                     image_2 = gr.Image(interactive=False)
