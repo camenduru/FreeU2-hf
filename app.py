@@ -19,20 +19,22 @@ model_id = "CompVis/stable-diffusion-v1-4"
 # register_free_crossattn_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
 # # -------- freeu block registration
 
-def infer(prompt, pip_sd, pip_freeu, seed, b1, b2, s1, s2):
+def infer(prompt, pip, seed, b1, b2, s1, s2):
 
-    # # -------- freeu block registration
-    # register_free_upblock2d(pip_freeu, b1=b1, b2=b2, s1=s1, s2=s1)
-    # register_free_crossattn_upblock2d(pip_freeu, b1=b1, b2=b2, s1=s1, s2=s1)
-    # # -------- freeu block registration
-
+   
+    # register_free_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
+    # register_free_crossattn_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
+   
     torch.manual_seed(seed)
     print("Generating SD:")
-    sd_image = pip_sd(prompt).images[0]  
+    sd_image = pip(prompt).images[0]  
+
+    # register_free_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
+    # register_free_crossattn_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
 
     torch.manual_seed(seed)
     print("Generating FreeU:")
-    freeu_image = pip_freeu(prompt).images[0]  
+    freeu_image = pip(prompt).images[0]  
 
     # First SD, then freeu
     images = [sd_image, freeu_image]
@@ -114,20 +116,20 @@ with block:
             else:
                 model_id = "CompVis/stable-diffusion-v1-4"
             
-            pip_sd = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-            pip_sd = pip_sd.to("cuda")
-            
-            pip_freeu = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-            pip_freeu = pip_freeu.to("cuda")
+            pip = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+            pip = pip_sd.to("cuda")
             
             with gr.Row():
-                text = gr.Textbox(
-                    label="Enter your prompt",
-                    show_label=False,
-                    max_lines=1,
-                    placeholder="Enter your prompt",
-                    container=False,
-                )
+                with gr.Column():
+                    text = gr.Textbox(
+                        label="Enter your prompt",
+                        show_label=False,
+                        max_lines=1,
+                        placeholder="Enter your prompt",
+                        container=False,
+                    )
+                    btn = gr.Button("Generate image", scale=0)
+                
                 seed = gr.Slider(label='seed',
                                         minimum=0,
                                         maximum=1000,
@@ -162,15 +164,14 @@ with block:
                     
     with gr.Row():
         with gr.Group():
-            btn = gr.Button("Generate image", scale=0)
+            # btn = gr.Button("Generate image", scale=0)
             with gr.Row():
                 with gr.Column(min_width=256) as c1:
                     image_1 = gr.Image(interactive=False)
                     image_1_label = gr.Markdown("SD")
             
         with gr.Group():
-            btn = gr.Button("Generate image", scale=0)
-            
+            # btn = gr.Button("Generate image", scale=0)
             with gr.Row():
                 with gr.Column(min_width=256) as c2:
                     image_2 = gr.Image(interactive=False)
