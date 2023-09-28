@@ -117,7 +117,7 @@ with block:
                 model_id = "CompVis/stable-diffusion-v1-4"
             
             pip = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-            pip = pip_sd.to("cuda")
+            pip = pip.to("cuda")
             
             with gr.Row():
                 with gr.Column():
