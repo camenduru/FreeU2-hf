@@ -155,7 +155,7 @@ with block:
     
     with gr.Group():
         with gr.Row():
-            with gr.Accordion('FreeU Parameters: ', open=False):
+            with gr.Accordion('FreeU Parameters(feel free to adjust these parameters based on your prompt): ', open=False):
                 with gr.Row():
                     b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
                                             minimum=1,
