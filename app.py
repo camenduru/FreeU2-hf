@@ -19,11 +19,18 @@ model_id = "CompVis/stable-diffusion-v1-4"
 # register_free_crossattn_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
 # # -------- freeu block registration
 
-def infer(prompt):
-    
+def infer(prompt, pip_sd, pip_freeu, seed, b1, b2, s1, s2):
+
+    # # -------- freeu block registration
+    # register_free_upblock2d(pip_freeu, b1=b1, b2=b2, s1=s1, s2=s1)
+    # register_free_crossattn_upblock2d(pip_freeu, b1=b1, b2=b2, s1=s1, s2=s1)
+    # # -------- freeu block registration
+
+    torch.manual_seed(seed)
     print("Generating SD:")
     sd_image = pip_sd(prompt).images[0]  
 
+    torch.manual_seed(seed)
     print("Generating FreeU:")
     freeu_image = pip_freeu(prompt).images[0]  
 
@@ -99,8 +106,21 @@ with block:
     with gr.Group():
         with gr.Row(): 
             sd_options = gr.Dropdown(['SD1.4', 'SD1.5', 'SD2.1'], value='SD1.4', label="SD options")
+
+            if sd_options == 'SD1.5':
+                model_id = "runwayml/stable-diffusion-v1-5"
+            elif sd_options == 'SD2.1':
+                model_id = "stabilityai/stable-diffusion-2-1"
+            else:
+                model_id = "CompVis/stable-diffusion-v1-4"
             
-            with gr.Column():
+            pip_sd = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+            pip_sd = pip_sd.to("cuda")
+            
+            pip_freeu = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+            pip_freeu = pip_freeu.to("cuda")
+            
+            with gr.Row():
                 text = gr.Textbox(
                     label="Enter your prompt",
                     show_label=False,
@@ -114,7 +134,7 @@ with block:
                                         step=1,
                                         value=42)
 
-
+    
     with gr.Group():
         with gr.Row():
             with gr.Accordion('FreeU Parameters: b', open=True):
@@ -138,9 +158,7 @@ with block:
                                         minimum=0,
                                         maximum=1,
                                         step=0.1,
-                                        value=1)
-            
-            
+                                        value=1)    
                     
     with gr.Row():
         with gr.Group():
@@ -159,56 +177,11 @@ with block:
                     image_2_label = gr.Markdown("FreeU")
         
         
-        # with gr.Column():
-        #     sd_options = gr.Dropdown(options, value='SD1.4', label="SD options")
-        #     model_id = "CompVis/stable-diffusion-v1-4"
-        #     with gr.Accordion('FreeU Parameters', open=False):
-        #         b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
-        #                                 minimum=1,
-        #                                 maximum=1.6,
-        #                                 step=0.1,
-        #                                 value=1)
-        #         b2 = gr.Slider(label='b2: backbone factor of the second stage block of decoder',
-        #                                 minimum=1,
-        #                                 maximum=1.6,
-        #                                 step=0.1,
-        #                                 value=1)
-        #         s1 = gr.Slider(label='s1: skip factor of the first stage block of decoder',
-        #                                 minimum=0,
-        #                                 maximum=1,
-        #                                 step=0.1,
-        #                                 value=1)
-        #         s2 = gr.Slider(label='s2: skip factor of the second stage block of decoder',
-        #                                 minimum=0,
-        #                                 maximum=1,
-        #                                 step=0.1,
-        #                                 value=1)
-    # with gr.Group():
-    #     with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
-    #         with gr.Column():
-    #             text = gr.Textbox(
-    #                 label="Enter your prompt",
-    #                 show_label=False,
-    #                 max_lines=1,
-    #                 placeholder="Enter your prompt",
-    #                 container=False,
-    #             )
-    #         btn = gr.Button("Generate image", scale=0)
-        
-    #     with gr.Row():
-    #         with gr.Column(min_width=256) as c1:
-    #             image_1 = gr.Image(interactive=False)
-    #             image_1_label = gr.Markdown("SD")
-    #         with gr.Column(min_width=256) as c2:
-    #             image_2 = gr.Image(interactive=False)
-    #             image_2_label = gr.Markdown("FreeU")
-            
-
-    ex = gr.Examples(examples=examples, fn=infer, inputs=[text], outputs=[image_1, image_2], cache_examples=False)
+    ex = gr.Examples(examples=examples, fn=infer, inputs=[text, pip_sd, pip_freeu, seed, b1, b2, s1, s2], outputs=[image_1, image_2], cache_examples=False)
     ex.dataset.headers = [""]
 
-    text.submit(infer, inputs=[text], outputs=[image_1, image_2])
-    btn.click(infer, inputs=[text], outputs=[image_1, image_2])
+    text.submit(infer, inputs=[text, pip_sd, pip_freeu, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
+    btn.click(infer, inputs=[text, pip_sd, pip_freeu, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
 
 block.launch()
 # block.queue(default_enabled=False).launch(share=False)
