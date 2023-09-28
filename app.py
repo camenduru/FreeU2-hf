@@ -38,6 +38,11 @@ model_id = "stabilityai/stable-diffusion-2-1"
 pip_2_1 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 pip_2_1 = pip_2_1.to("cuda")
 
+prompt_prev = None
+sd_options_prev = None
+seed_prev = None 
+sd_image_prev = None
+
 def infer(prompt, sd_options, seed, b1, b2, s1, s2):
 
     if sd_options == 'SD1.5':
@@ -46,14 +51,26 @@ def infer(prompt, sd_options, seed, b1, b2, s1, s2):
         pip = pip_2_1
     else:
         pip = pip_1_4
-    
-    register_free_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
-    register_free_crossattn_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
-   
-    torch.manual_seed(seed)
-    print("Generating SD:")
-    sd_image = pip(prompt, num_inference_steps=25).images[0]  
 
+    run_baseline = False
+    if prompt != prompt_prev or sd_options != sd_options_prev or seed != seed_prev:
+        run_baseline = True
+        prompt_prev = prompt
+        sd_options_prev = sd_options
+        seed_prev = seed_prev
+
+    if run_baseline:
+        register_free_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
+        register_free_crossattn_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
+       
+        torch.manual_seed(seed)
+        print("Generating SD:")
+        sd_image = pip(prompt, num_inference_steps=25).images[0]  
+        sd_image_prev = sd_image
+    else:
+        sd_image = sd_image_prev
+
+    
     register_free_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
     register_free_crossattn_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
 
@@ -168,12 +185,12 @@ with block:
                 b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
                                         minimum=1,
                                         maximum=1.6,
-                                        step=0.1,
+                                        step=0.01,
                                         value=1)
                 b2 = gr.Slider(label='b2: backbone factor of the second stage block of decoder',
                                         minimum=1,
                                         maximum=1.6,
-                                        step=0.1,
+                                        step=0.01,
                                         value=1)
             with gr.Accordion('FreeU Parameters: s', open=True):
                 s1 = gr.Slider(label='s1: skip factor of the first stage block of decoder',
