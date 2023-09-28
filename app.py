@@ -113,11 +113,11 @@ with block:
             sd_options = gr.Dropdown(['SD1.4', 'SD1.5', 'SD2.1'], value='SD1.4', label="SD options")
 
             if sd_options == 'SD1.5':
-                model_id = "runwayml/stable-diffusion-v1-5"
+                model = "runwayml/stable-diffusion-v1-5"
             elif sd_options == 'SD2.1':
-                model_id = "stabilityai/stable-diffusion-2-1"
+                model = "stabilityai/stable-diffusion-2-1"
             else:
-                model_id = "CompVis/stable-diffusion-v1-4"
+                model = "CompVis/stable-diffusion-v1-4"
             
             # pip = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
             # pip = pip.to("cuda")
@@ -181,11 +181,11 @@ with block:
                     image_2_label = gr.Markdown("FreeU")
         
         
-    ex = gr.Examples(examples=examples, fn=infer, inputs=[text, model_id, seed, b1, b2, s1, s2], outputs=[image_1, image_2], cache_examples=False)
+    ex = gr.Examples(examples=examples, fn=infer, inputs=[text, model, seed, b1, b2, s1, s2], outputs=[image_1, image_2], cache_examples=False)
     ex.dataset.headers = [""]
 
-    text.submit(infer, inputs=[text, model_id, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
-    btn.click(infer, inputs=[text, model_id, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
+    text.submit(infer, inputs=[text, model, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
+    btn.click(infer, inputs=[text, model, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
 
 block.launch()
 # block.queue(default_enabled=False).launch(share=False)
