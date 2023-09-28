@@ -100,14 +100,19 @@ with block:
         with gr.Row(): 
             sd_options = gr.Dropdown(['SD1.4', 'SD1.5', 'SD2.1'], value='SD1.4', label="SD options")
             
-            # with gr.Column():
-            text = gr.Textbox(
-                label="Enter your prompt",
-                show_label=False,
-                max_lines=1,
-                placeholder="Enter your prompt",
-                container=False,
-            )
+            with gr.Column():
+                text = gr.Textbox(
+                    label="Enter your prompt",
+                    show_label=False,
+                    max_lines=1,
+                    placeholder="Enter your prompt",
+                    container=False,
+                )
+                seed = gr.Slider(label='seed',
+                                        minimum=0,
+                                        maximum=1000,
+                                        step=1,
+                                        value=42)
 
 
     with gr.Group():
