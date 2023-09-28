@@ -97,39 +97,39 @@ options = ['SD1.4', 'SD1.5', 'SD2.1']
 with block:
     gr.Markdown("SD vs. FreeU.")
     with gr.Row():
-        with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
-            with gr.Column():
-                text = gr.Textbox(
-                    label="Enter your prompt",
-                    show_label=False,
-                    max_lines=1,
-                    placeholder="Enter your prompt",
-                    container=False,
-                )
-            btn = gr.Button("Generate image", scale=0)
-
-        with gr.Row():
-            with gr.Column(min_width=256) as c1:
-                image_1 = gr.Image(interactive=False)
-                image_1_label = gr.Markdown("SD")
+        with gr.Group():
+            with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
+                with gr.Column():
+                    text = gr.Textbox(
+                        label="Enter your prompt",
+                        show_label=False,
+                        max_lines=1,
+                        placeholder="Enter your prompt",
+                        container=False,
+                    )
+                btn = gr.Button("Generate image", scale=0)
+    
             with gr.Row():
-
+                with gr.Column(min_width=256) as c1:
+                    image_1 = gr.Image(interactive=False)
+                    image_1_label = gr.Markdown("SD")
             
-        with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
-            with gr.Column():
-                text = gr.Textbox(
-                    label="Enter your prompt",
-                    show_label=False,
-                    max_lines=1,
-                    placeholder="Enter your prompt",
-                    container=False,
-                )
-            btn = gr.Button("Generate image", scale=0)
-
-        with gr.Row():
-            with gr.Column(min_width=256) as c2:
-                image_2 = gr.Image(interactive=False)
-                image_2_label = gr.Markdown("FreeU")
+        with gr.Group():
+            with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
+                with gr.Column():
+                    text = gr.Textbox(
+                        label="Enter your prompt",
+                        show_label=False,
+                        max_lines=1,
+                        placeholder="Enter your prompt",
+                        container=False,
+                    )
+                btn = gr.Button("Generate image", scale=0)
+    
+            with gr.Row():
+                with gr.Column(min_width=256) as c2:
+                    image_2 = gr.Image(interactive=False)
+                    image_2_label = gr.Markdown("FreeU")
         
         
         # with gr.Column():
