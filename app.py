@@ -19,10 +19,13 @@ model_id = "CompVis/stable-diffusion-v1-4"
 # register_free_crossattn_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
 # # -------- freeu block registration
 
+pip = StableDiffusionPipeline.from_pretrained(model, torch_dtype=torch.float16)
+pip = pip.to("cuda")
+
 def infer(prompt, model, seed, b1, b2, s1, s2):
 
-    pip = StableDiffusionPipeline.from_pretrained(model, torch_dtype=torch.float16)
-    pip = pip.to("cuda")
+    # pip = StableDiffusionPipeline.from_pretrained(model, torch_dtype=torch.float16)
+    # pip = pip.to("cuda")
 
    
     # register_free_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
