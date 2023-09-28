@@ -44,6 +44,10 @@ seed_prev = None
 sd_image_prev = None
 
 def infer(prompt, sd_options, seed, b1, b2, s1, s2):
+    global prompt_prev
+    global sd_options_prev
+    global seed_prev
+    global sd_image_prev
 
     if sd_options == 'SD1.5':
         pip = pip_1_5
@@ -57,7 +61,7 @@ def infer(prompt, sd_options, seed, b1, b2, s1, s2):
         run_baseline = True
         prompt_prev = prompt
         sd_options_prev = sd_options
-        seed_prev = seed_prev
+        seed_prev = seed
 
     if run_baseline:
         register_free_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
