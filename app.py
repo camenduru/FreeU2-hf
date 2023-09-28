@@ -7,8 +7,8 @@ from free_lunch_utils import register_free_upblock2d, register_free_crossattn_up
 
 
 
-# model_id = "stabilityai/stable-diffusion-2-1"
-model_id = "./stable-diffusion-2-1"
+model_id = "stabilityai/stable-diffusion-2-1"
+# model_id = "./stable-diffusion-2-1"
 pip_2_1 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 pip_2_1 = pip_2_1.to("cuda")
 
