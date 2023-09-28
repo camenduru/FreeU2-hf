@@ -19,7 +19,10 @@ model_id = "CompVis/stable-diffusion-v1-4"
 # register_free_crossattn_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
 # # -------- freeu block registration
 
-def infer(prompt, pip, seed, b1, b2, s1, s2):
+def infer(prompt, model_id, seed, b1, b2, s1, s2):
+
+    pip = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+    pip = pip.to("cuda")
 
    
     # register_free_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
@@ -116,8 +119,8 @@ with block:
             else:
                 model_id = "CompVis/stable-diffusion-v1-4"
             
-            pip = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-            pip = pip.to("cuda")
+            # pip = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+            # pip = pip.to("cuda")
             
             with gr.Row():
                 with gr.Column():
@@ -178,11 +181,11 @@ with block:
                     image_2_label = gr.Markdown("FreeU")
         
         
-    ex = gr.Examples(examples=examples, fn=infer, inputs=[text, pip, seed, b1, b2, s1, s2], outputs=[image_1, image_2], cache_examples=False)
+    ex = gr.Examples(examples=examples, fn=infer, inputs=[text, model_id, seed, b1, b2, s1, s2], outputs=[image_1, image_2], cache_examples=False)
     ex.dataset.headers = [""]
 
-    text.submit(infer, inputs=[text, pip, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
-    btn.click(infer, inputs=[text, pip, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
+    text.submit(infer, inputs=[text, model_id, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
+    btn.click(infer, inputs=[text, model_id, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
 
 block.launch()
 # block.queue(default_enabled=False).launch(share=False)
