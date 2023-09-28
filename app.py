@@ -90,7 +90,7 @@ h1 {
 }
 """
 
-block = gr.Blocks(css=css)
+block = gr.Blocks(css='style.css')
 
 options = ['SD1.4', 'SD1.5', 'SD2.1']
 
@@ -107,7 +107,7 @@ with block:
                         placeholder="Enter your prompt",
                         container=False,
                     )
-                    btn = gr.Button("Generate image", scale=0)
+                btn = gr.Button("Generate image", scale=0)
     
             with gr.Row():
                 with gr.Column(min_width=256) as c1:
@@ -124,7 +124,7 @@ with block:
                         placeholder="Enter your prompt",
                         container=False,
                     )
-                    btn = gr.Button("Generate image", scale=0)
+                btn = gr.Button("Generate image", scale=0)
     
             with gr.Row():
                 with gr.Column(min_width=256) as c2:
