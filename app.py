@@ -9,11 +9,11 @@ from free_lunch_utils import register_free_upblock2d, register_free_crossattn_up
 torch.manual_seed(42)
 model_id = "CompVis/stable-diffusion-v1-4"
         
-pip_sd = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-pip_sd = pip_sd.to("cuda")
+# pip_sd = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+# pip_sd = pip_sd.to("cuda")
 
-pip_freeu = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-pip_freeu = pip_freeu.to("cuda")
+# pip_freeu = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+# pip_freeu = pip_freeu.to("cuda")
 # # -------- freeu block registration
 # register_free_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
 # register_free_crossattn_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
@@ -97,42 +97,39 @@ options = ['SD1.4', 'SD1.5', 'SD2.1']
 with block:
     gr.Markdown("SD vs. FreeU.")
     with gr.Row():
-        with gr.Group():
-            with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
-                with gr.Column():
-                    text = gr.Textbox(
-                        label="Enter your prompt",
-                        show_label=False,
-                        max_lines=1,
-                        placeholder="Enter your prompt",
-                        container=False,
-                    )
-                btn = gr.Button("Generate image", scale=0)
+        with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
+            with gr.Column():
+                text = gr.Textbox(
+                    label="Enter your prompt",
+                    show_label=False,
+                    max_lines=1,
+                    placeholder="Enter your prompt",
+                    container=False,
+                )
+            btn = gr.Button("Generate image", scale=0)
 
+        with gr.Row():
+            with gr.Column(min_width=256) as c1:
+                image_1 = gr.Image(interactive=False)
+                image_1_label = gr.Markdown("SD")
             with gr.Row():
-                with gr.Column(min_width=256) as c1:
-                    image_1 = gr.Image(interactive=False)
-                    image_1_label = gr.Markdown("SD")
-                with gr.Row():
-            
-            
-        
-        with gr.Group():
-            with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
-                with gr.Column():
-                    text = gr.Textbox(
-                        label="Enter your prompt",
-                        show_label=False,
-                        max_lines=1,
-                        placeholder="Enter your prompt",
-                        container=False,
-                    )
-                btn = gr.Button("Generate image", scale=0)
 
-            with gr.Row():
-                with gr.Column(min_width=256) as c2:
-                    image_2 = gr.Image(interactive=False)
-                    image_2_label = gr.Markdown("FreeU")
+            
+        with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
+            with gr.Column():
+                text = gr.Textbox(
+                    label="Enter your prompt",
+                    show_label=False,
+                    max_lines=1,
+                    placeholder="Enter your prompt",
+                    container=False,
+                )
+            btn = gr.Button("Generate image", scale=0)
+
+        with gr.Row():
+            with gr.Column(min_width=256) as c2:
+                image_2 = gr.Image(interactive=False)
+                image_2_label = gr.Markdown("FreeU")
         
         
         # with gr.Column():
