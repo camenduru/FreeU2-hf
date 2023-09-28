@@ -146,7 +146,7 @@ with block:
                     placeholder="Enter your prompt",
                     container=False,
                     )
-                btn = gr.Button("Generate image", scale=0)
+            btn = gr.Button("Generate image", scale=0)
         with gr.Row():             
             sd_options = gr.Dropdown(["SD2.1"], label="SD options", value="SD2.1", visible=False)
             
