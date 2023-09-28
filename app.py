@@ -135,7 +135,7 @@ block = gr.Blocks(css='style.css')
 options = ['SD2.1']
 
 with block:
-    gr.Markdown("SD vs. FreeU.")
+    gr.Markdown("# SD 2.1 vs. FreeU")
     with gr.Group():
         with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
             with gr.Column():
