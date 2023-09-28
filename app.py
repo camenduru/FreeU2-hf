@@ -131,12 +131,12 @@ with block:
         with gr.Row(): 
             sd_options = gr.Dropdown(["SD1.4", "SD1.5", "SD2.1"], label="SD options")
 
-            if sd_options == 'SD1.5':
-                sd = 1.5
-            elif sd_options == 'SD2.1':
-                sd = 2.1
-            else:
-                sd = 1.4
+            # if sd_options == 'SD1.5':
+            #     sd = 1.5
+            # elif sd_options == 'SD2.1':
+            #     sd = 2.1
+            # else:
+            #     sd = 1.4
             
             # pip = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
             # pip = pip.to("cuda")
@@ -200,11 +200,11 @@ with block:
                     image_2_label = gr.Markdown("FreeU")
         
         
-    ex = gr.Examples(examples=examples, fn=infer, inputs=[text, sd, seed, b1, b2, s1, s2], outputs=[image_1, image_2], cache_examples=False)
+    ex = gr.Examples(examples=examples, fn=infer, inputs=[text, sd_options, seed, b1, b2, s1, s2], outputs=[image_1, image_2], cache_examples=False)
     ex.dataset.headers = [""]
 
-    text.submit(infer, inputs=[text, sd, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
-    btn.click(infer, inputs=[text, sd, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
+    text.submit(infer, inputs=[text, sd_options, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
+    btn.click(infer, inputs=[text, sd_options, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
 
 block.launch()
 # block.queue(default_enabled=False).launch(share=False)
