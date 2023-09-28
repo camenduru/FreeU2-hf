@@ -20,6 +20,26 @@ def isinstance_str(x: object, cls_name: str):
     return False
 
 
+def Fourier_filter(x, threshold, scale):
+    dtype = x.dtype
+    x = x.type(torch.float32)
+    # FFT
+    x_freq = fft.fftn(x, dim=(-2, -1))
+    x_freq = fft.fftshift(x_freq, dim=(-2, -1))
+    
+    B, C, H, W = x_freq.shape
+    mask = torch.ones((B, C, H, W)).cuda() 
+
+    crow, ccol = H // 2, W //2
+    mask[..., crow - threshold:crow + threshold, ccol - threshold:ccol + threshold] = scale
+    x_freq = x_freq * mask
+
+    # IFFT
+    x_freq = fft.ifftshift(x_freq, dim=(-2, -1))
+    x_filtered = fft.ifftn(x_freq, dim=(-2, -1)).real
+    
+    x_filtered = x_filtered.type(dtype)
+    return x_filtered
 
 
 def register_upblock2d(model):
@@ -77,10 +97,10 @@ def register_free_upblock2d(model, b1=1.2, b2=1.4, s1=0.9, s2=0.2):
                 # Only operate on the first two stages
                 if hidden_states.shape[1] == 1280:
                     hidden_states[:,:640] = hidden_states[:,:640] * self.b1
-                    # # res_hidden_states = Fourier_filter(res_hidden_states, threshold=1, scale=self.s1)
+                    res_hidden_states = Fourier_filter(res_hidden_states, threshold=1, scale=self.s1)
                 if hidden_states.shape[1] == 640:
                     hidden_states[:,:320] = hidden_states[:,:320] * self.b2
-                    # res_hidden_states = Fourier_filter(res_hidden_states, threshold=1, scale=self.s2)
+                    res_hidden_states = Fourier_filter(res_hidden_states, threshold=1, scale=self.s2)
                 # ---------------------------------------------------------
 
                 hidden_states = torch.cat([hidden_states, res_hidden_states], dim=1)
@@ -215,10 +235,10 @@ def register_free_crossattn_upblock2d(model, b1=1.2, b2=1.4, s1=0.9, s2=0.2):
                 # Only operate on the first two stages
                 if hidden_states.shape[1] == 1280:
                     hidden_states[:,:640] = hidden_states[:,:640] * self.b1
-                    # res_hidden_states = Fourier_filter(res_hidden_states, threshold=1, scale=self.s1)
+                    res_hidden_states = Fourier_filter(res_hidden_states, threshold=1, scale=self.s1)
                 if hidden_states.shape[1] == 640:
                     hidden_states[:,:320] = hidden_states[:,:320] * self.b2
-                    # res_hidden_states = Fourier_filter(res_hidden_states, threshold=1, scale=self.s2)
+                    res_hidden_states = Fourier_filter(res_hidden_states, threshold=1, scale=self.s2)
                 # ---------------------------------------------------------
 
                 hidden_states = torch.cat([hidden_states, res_hidden_states], dim=1)
