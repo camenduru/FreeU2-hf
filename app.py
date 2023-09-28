@@ -96,7 +96,7 @@ with block:
     gr.Markdown("SD vs. FreeU.")
     with gr.Group():
         with gr.Row(): 
-            sd_options = gr.Dropdown(["SD1.4", "SD1.5", "SD2.1"], label="SD options")
+            sd_options = gr.Dropdown(["SD2.1"], label="SD options")
             
             with gr.Column():
                 with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
