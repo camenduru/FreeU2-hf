@@ -26,10 +26,19 @@ model_id = "CompVis/stable-diffusion-v1-4"
 # register_free_crossattn_upblock2d(pip_freeu, b1=1.2, b2=1.4, s1=0.9, s2=0.2)
 # # -------- freeu block registration
 
-pip = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-pip = pip.to("cuda")
+model_id = "CompVis/stable-diffusion-v1-4"
+pip_1_4 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+pip_1_4 = pip_1_4.to("cuda")
 
-def infer(prompt, sd_model, seed, b1, b2, s1, s2):
+# model_id = "runwayml/stable-diffusion-v1-5"
+# pip_1_5 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+# pip_1_5 = pip_1_5.to("cuda")
+
+# model_id = "stabilityai/stable-diffusion-2-1"
+# pip_2_1 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+# pip_2_1 = pip_2_1.to("cuda")
+
+def infer(prompt, sd, seed, b1, b2, s1, s2):
 
     # pip = StableDiffusionPipeline.from_pretrained(model, torch_dtype=torch.float16)
     # pip = pip.to("cuda")
@@ -40,14 +49,14 @@ def infer(prompt, sd_model, seed, b1, b2, s1, s2):
    
     torch.manual_seed(seed)
     print("Generating SD:")
-    sd_image = pip(prompt).images[0]  
+    sd_image = pip_1_4(prompt).images[0]  
 
     # register_free_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
     # register_free_crossattn_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
 
     torch.manual_seed(seed)
     print("Generating FreeU:")
-    freeu_image = pip(prompt).images[0]  
+    freeu_image = pip_1_4(prompt).images[0]  
 
     # First SD, then freeu
     images = [sd_image, freeu_image]
@@ -123,11 +132,11 @@ with block:
             sd_options = gr.Dropdown(["SD1.4", "SD1.5", "SD2.1"], label="SD options")
 
             if sd_options == 'SD1.5':
-                sd_model = 1.5
+                sd = 1.5
             elif sd_options == 'SD2.1':
-                sd_model = 2.1
+                sd = 2.1
             else:
-                sd_model = 1.4
+                sd = 1.4
             
             # pip = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
             # pip = pip.to("cuda")
@@ -179,23 +188,23 @@ with block:
         with gr.Group():
             # btn = gr.Button("Generate image", scale=0)
             with gr.Row():
-                with gr.Column(min_width=256) as c1:
+                with gr.Column() as c1:
                     image_1 = gr.Image(interactive=False)
                     image_1_label = gr.Markdown("SD")
             
         with gr.Group():
             # btn = gr.Button("Generate image", scale=0)
             with gr.Row():
-                with gr.Column(min_width=256) as c2:
+                with gr.Column() as c2:
                     image_2 = gr.Image(interactive=False)
                     image_2_label = gr.Markdown("FreeU")
         
         
-    ex = gr.Examples(examples=examples, fn=infer, inputs=[text, sd_model, seed, b1, b2, s1, s2], outputs=[image_1, image_2], cache_examples=False)
+    ex = gr.Examples(examples=examples, fn=infer, inputs=[text, sd, seed, b1, b2, s1, s2], outputs=[image_1, image_2], cache_examples=False)
     ex.dataset.headers = [""]
 
-    text.submit(infer, inputs=[text, sd_model, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
-    btn.click(infer, inputs=[text, sd_model, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
+    text.submit(infer, inputs=[text, sd, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
+    btn.click(infer, inputs=[text, sd, seed, b1, b2, s1, s2], outputs=[image_1, image_2])
 
 block.launch()
 # block.queue(default_enabled=False).launch(share=False)
