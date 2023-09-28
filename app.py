@@ -46,15 +46,16 @@ def infer(prompt, sd_options, seed, b1, b2, s1, s2):
         pip = pip_2_1
     else:
         pip = pip_1_4
-    # register_free_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
-    # register_free_crossattn_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
+    
+    register_free_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
+    register_free_crossattn_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
    
     torch.manual_seed(seed)
     print("Generating SD:")
     sd_image = pip(prompt, num_inference_steps=25).images[0]  
 
-    # register_free_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
-    # register_free_crossattn_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
+    register_free_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
+    register_free_crossattn_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
 
     torch.manual_seed(seed)
     print("Generating FreeU:")
