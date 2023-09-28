@@ -97,49 +97,87 @@ options = ['SD1.4', 'SD1.5', 'SD2.1']
 with block:
     gr.Markdown("SD vs. FreeU.")
     with gr.Row():
-        with gr.Column():
-            sd_options = gr.Dropdown(options, value='SD1.4', label="SD options")
-            model_id = "CompVis/stable-diffusion-v1-4"
-            with gr.Accordion('FreeU Parameters', open=False):
-                b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
-                                        minimum=1,
-                                        maximum=1.6,
-                                        step=0.1,
-                                        value=1)
-                b2 = gr.Slider(label='b2: backbone factor of the second stage block of decoder',
-                                        minimum=1,
-                                        maximum=1.6,
-                                        step=0.1,
-                                        value=1)
-                s1 = gr.Slider(label='s1: skip factor of the first stage block of decoder',
-                                        minimum=0,
-                                        maximum=1,
-                                        step=0.1,
-                                        value=1)
-                s2 = gr.Slider(label='s2: skip factor of the second stage block of decoder',
-                                        minimum=0,
-                                        maximum=1,
-                                        step=0.1,
-                                        value=1)
-    with gr.Group():
-        with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
-            with gr.Column():
-                text = gr.Textbox(
-                    label="Enter your prompt",
-                    show_label=False,
-                    max_lines=1,
-                    placeholder="Enter your prompt",
-                    container=False,
-                )
-            btn = gr.Button("Generate image", scale=0)
+        with gr.Group():
+            with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
+                with gr.Column():
+                    text = gr.Textbox(
+                        label="Enter your prompt",
+                        show_label=False,
+                        max_lines=1,
+                        placeholder="Enter your prompt",
+                        container=False,
+                    )
+                btn = gr.Button("Generate image", scale=0)
+
+            with gr.Row():
+                with gr.Column(min_width=256) as c1:
+                    image_1 = gr.Image(interactive=False)
+                    image_1_label = gr.Markdown("SD")
+                with gr.Row():
+            
+            
         
-        with gr.Row():
-            with gr.Column(min_width=256) as c1:
-                image_1 = gr.Image(interactive=False)
-                image_1_label = gr.Markdown("SD")
-            with gr.Column(min_width=256) as c2:
-                image_2 = gr.Image(interactive=False)
-                image_2_label = gr.Markdown("FreeU")
+        with gr.Group():
+            with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
+                with gr.Column():
+                    text = gr.Textbox(
+                        label="Enter your prompt",
+                        show_label=False,
+                        max_lines=1,
+                        placeholder="Enter your prompt",
+                        container=False,
+                    )
+                btn = gr.Button("Generate image", scale=0)
+
+            with gr.Row():
+                with gr.Column(min_width=256) as c2:
+                    image_2 = gr.Image(interactive=False)
+                    image_2_label = gr.Markdown("FreeU")
+        
+        
+        # with gr.Column():
+        #     sd_options = gr.Dropdown(options, value='SD1.4', label="SD options")
+        #     model_id = "CompVis/stable-diffusion-v1-4"
+        #     with gr.Accordion('FreeU Parameters', open=False):
+        #         b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
+        #                                 minimum=1,
+        #                                 maximum=1.6,
+        #                                 step=0.1,
+        #                                 value=1)
+        #         b2 = gr.Slider(label='b2: backbone factor of the second stage block of decoder',
+        #                                 minimum=1,
+        #                                 maximum=1.6,
+        #                                 step=0.1,
+        #                                 value=1)
+        #         s1 = gr.Slider(label='s1: skip factor of the first stage block of decoder',
+        #                                 minimum=0,
+        #                                 maximum=1,
+        #                                 step=0.1,
+        #                                 value=1)
+        #         s2 = gr.Slider(label='s2: skip factor of the second stage block of decoder',
+        #                                 minimum=0,
+        #                                 maximum=1,
+        #                                 step=0.1,
+        #                                 value=1)
+    # with gr.Group():
+    #     with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
+    #         with gr.Column():
+    #             text = gr.Textbox(
+    #                 label="Enter your prompt",
+    #                 show_label=False,
+    #                 max_lines=1,
+    #                 placeholder="Enter your prompt",
+    #                 container=False,
+    #             )
+    #         btn = gr.Button("Generate image", scale=0)
+        
+    #     with gr.Row():
+    #         with gr.Column(min_width=256) as c1:
+    #             image_1 = gr.Image(interactive=False)
+    #             image_1_label = gr.Markdown("SD")
+    #         with gr.Column(min_width=256) as c2:
+    #             image_2 = gr.Image(interactive=False)
+    #             image_2_label = gr.Markdown("FreeU")
             
 
     ex = gr.Examples(examples=examples, fn=infer, inputs=[text], outputs=[image_1, image_2], cache_examples=False)
