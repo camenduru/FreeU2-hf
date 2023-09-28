@@ -143,14 +143,15 @@ with block:
             # pip = pip.to("cuda")
             
             with gr.Row():
-                with gr.Row():
-                    text = gr.Textbox(
-                        label="Enter your prompt",
-                        show_label=False,
-                        max_lines=1,
-                        placeholder="Enter your prompt",
-                        container=False,
-                    )
+                with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
+                    with gr.Column():
+                        text = gr.Textbox(
+                            label="Enter your prompt",
+                            show_label=False,
+                            max_lines=1,
+                            placeholder="Enter your prompt",
+                            container=False,
+                        )
                     btn = gr.Button("Generate image", scale=0)
                 
                 seed = gr.Slider(label='seed',
