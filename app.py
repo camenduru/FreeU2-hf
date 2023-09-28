@@ -6,15 +6,18 @@ from diffusers import StableDiffusionPipeline
 from free_lunch_utils import register_free_upblock2d, register_free_crossattn_upblock2d
 
 
-model_id = "CompVis/stable-diffusion-v1-4"
+# model_id = "CompVis/stable-diffusion-v1-4"
+model_id = "./stable-diffusion-v1-4"
 pip_1_4 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 pip_1_4 = pip_1_4.to("cuda")
 
-model_id = "runwayml/stable-diffusion-v1-5"
+# model_id = "runwayml/stable-diffusion-v1-5"
+model_id = "./stable-diffusion-v1-5"
 pip_1_5 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 pip_1_5 = pip_1_5.to("cuda")
 
-model_id = "stabilityai/stable-diffusion-2-1"
+# model_id = "stabilityai/stable-diffusion-2-1"
+model_id = "./stable-diffusion-2-1"
 pip_2_1 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 pip_2_1 = pip_2_1.to("cuda")
 
@@ -74,39 +77,6 @@ examples = [
     ],
     [
         "half human half cat, a human cat hybrid",
-    ],
-    [
-        "a hedgehog using a calculator",
-    ],
-    [
-        "kanye west | diffuse lighting | fantasy | intricate elegant highly detailed lifelike photorealistic digital painting | artstation",
-    ],
-    [
-        "astronaut pig",
-    ],
-    [
-        "two people shouting at each other",
-    ],
-    [
-        "A linked in profile picture of Elon Musk",
-    ],
-    [
-        "A man looking out of a rainy window",
-    ],
-    [
-        "close up, iron man, eating breakfast in a cabin, symmetrical balance, hyper-realistic --ar 16:9 --style raw"
-    ],
-    [
-        'A high tech solarpunk utopia in the Amazon rainforest',
-    ],
-    [
-        'A pikachu fine dining with a view to the Eiffel Tower',
-    ],
-    [
-        'A mecha robot in a favela in expressionist style',
-    ],
-    [
-        'an insect robot preparing a delicious meal',
     ],
 ]
     
