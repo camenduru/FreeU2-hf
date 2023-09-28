@@ -107,7 +107,7 @@ with block:
                         placeholder="Enter your prompt",
                         container=False,
                     )
-                btn = gr.Button("Generate image", scale=0)
+                    btn = gr.Button("Generate image", scale=0)
     
             with gr.Row():
                 with gr.Column(min_width=256) as c1:
@@ -124,7 +124,7 @@ with block:
                         placeholder="Enter your prompt",
                         container=False,
                     )
-                btn = gr.Button("Generate image", scale=0)
+                    btn = gr.Button("Generate image", scale=0)
     
             with gr.Row():
                 with gr.Column(min_width=256) as c2:
