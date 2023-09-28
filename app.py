@@ -96,9 +96,8 @@ options = ['SD1.4', 'SD1.5', 'SD2.1']
 
 with block:
     gr.Markdown("SD vs. FreeU.")
-    with gr.Row():
-        with gr.Group():
-            with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
+    with gr.Group():
+        with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
                 with gr.Column():
                     text = gr.Textbox(
                         label="Enter your prompt",
@@ -107,6 +106,18 @@ with block:
                         placeholder="Enter your prompt",
                         container=False,
                     )
+                    
+    with gr.Row():
+        with gr.Group():
+            # with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
+            #     with gr.Column():
+            #         text = gr.Textbox(
+            #             label="Enter your prompt",
+            #             show_label=False,
+            #             max_lines=1,
+            #             placeholder="Enter your prompt",
+            #             container=False,
+            #         )
                 btn = gr.Button("Generate image", scale=0)
     
             with gr.Row():
@@ -116,14 +127,14 @@ with block:
             
         with gr.Group():
             with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
-                with gr.Column():
-                    text = gr.Textbox(
-                        label="Enter your prompt",
-                        show_label=False,
-                        max_lines=1,
-                        placeholder="Enter your prompt",
-                        container=False,
-                    )
+                # with gr.Column():
+                #     text = gr.Textbox(
+                #         label="Enter your prompt",
+                #         show_label=False,
+                #         max_lines=1,
+                #         placeholder="Enter your prompt",
+                #         container=False,
+                #     )
                 btn = gr.Button("Generate image", scale=0)
     
             with gr.Row():
