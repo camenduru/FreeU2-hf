@@ -139,13 +139,13 @@ with block:
     with gr.Group():
         with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
             with gr.Column():
-                    text = gr.Textbox(
+                text = gr.Textbox(
                     label="Enter your prompt",
                     show_label=False,
                     max_lines=1,
                     placeholder="Enter your prompt",
                     container=False,
-                )
+                    )
                 btn = gr.Button("Generate image", scale=0)
         with gr.Row():             
             sd_options = gr.Dropdown(["SD2.1"], label="SD options", value="SD2.1", visible=False)
