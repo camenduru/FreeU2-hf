@@ -1,5 +1,5 @@
 diffusers
-transformers
+transformers==0.16.1
 accelerate
 xformers
 git+https://github.com/huggingface/open-muse.git@patrickvonplaten-patch-1
