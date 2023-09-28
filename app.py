@@ -30,33 +30,35 @@ model_id = "CompVis/stable-diffusion-v1-4"
 pip_1_4 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 pip_1_4 = pip_1_4.to("cuda")
 
-# model_id = "runwayml/stable-diffusion-v1-5"
-# pip_1_5 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-# pip_1_5 = pip_1_5.to("cuda")
+model_id = "runwayml/stable-diffusion-v1-5"
+pip_1_5 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+pip_1_5 = pip_1_5.to("cuda")
 
-# model_id = "stabilityai/stable-diffusion-2-1"
-# pip_2_1 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-# pip_2_1 = pip_2_1.to("cuda")
+model_id = "stabilityai/stable-diffusion-2-1"
+pip_2_1 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+pip_2_1 = pip_2_1.to("cuda")
 
-def infer(prompt, sd, seed, b1, b2, s1, s2):
+def infer(prompt, sd_options, seed, b1, b2, s1, s2):
 
-    # pip = StableDiffusionPipeline.from_pretrained(model, torch_dtype=torch.float16)
-    # pip = pip.to("cuda")
-
-   
+    if sd_options == 'SD1.5':
+        pip = pip_1_5
+    elif sd_options == 'SD2.1':
+        pip = pip_2_1
+    else:
+        pip = pip_1_4
     # register_free_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
     # register_free_crossattn_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
    
     torch.manual_seed(seed)
     print("Generating SD:")
-    sd_image = pip_1_4(prompt).images[0]  
+    sd_image = pip(prompt, num_inference_steps=25).images[0]  
 
     # register_free_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
     # register_free_crossattn_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
 
     torch.manual_seed(seed)
     print("Generating FreeU:")
-    freeu_image = pip_1_4(prompt).images[0]  
+    freeu_image = pip(prompt, num_inference_steps=25).images[0]  
 
     # First SD, then freeu
     images = [sd_image, freeu_image]
