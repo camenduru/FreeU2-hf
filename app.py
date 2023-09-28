@@ -144,7 +144,7 @@ with block:
             # pip = pip.to("cuda")
             
             with gr.Row():
-                with gr.Column():
+                with gr.Row():
                     text = gr.Textbox(
                         label="Enter your prompt",
                         show_label=False,
@@ -152,7 +152,7 @@ with block:
                         placeholder="Enter your prompt",
                         container=False,
                     )
-                btn = gr.Button("Generate image", scale=0)
+                    btn = gr.Button("Generate image", scale=0)
                 
                 seed = gr.Slider(label='seed',
                                         minimum=0,
