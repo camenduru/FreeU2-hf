@@ -74,9 +74,6 @@ examples = [
         "A small cabin on top of a snowy mountain in the style of Disney, artstation",
     ],
     [
-        "a monkey doing yoga on the beach",
-    ],
-    [
         "half human half cat, a human cat hybrid",
     ],
     [
