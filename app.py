@@ -66,10 +66,10 @@ def infer(prompt, sd_options, seed, b1, b2, s1, s2):
 
 examples = [
     [
-        "A drone  view of celebration with Christma tree and fireworks, starry sky - background.",
+        "A horse galloping on the ocean",
     ],
     [
-        "happy dog wearing a yellow turtleneck, studio, portrait, facing camera, studio, dark bg"
+        "a teddy bear walking in the snowstorm"
     ],
     [
         "Campfire at night in a snowy forest with starry sky in the background."
@@ -78,7 +78,7 @@ examples = [
         "a fantasy landscape, trending on artstation"
     ],
     [
-        "Busy freeway at night."
+        "An astronaut flying in space, 4k, high resolution."
     ],
     [
         "An astronaut is riding a horse in the space in a photorealistic style."
@@ -88,9 +88,6 @@ examples = [
     ],
     [
         "A storm trooper vacuuming the beach."
-    ],
-    [
-        "An astronaut feeding ducks on a sunny afternoon, reflection from the water."
     ],
     [
         "Fireworks."
