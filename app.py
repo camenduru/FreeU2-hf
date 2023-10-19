@@ -175,16 +175,12 @@ with block:
                     container=False,
                     )
             btn = gr.Button("Generate image", scale=0)
-
-    with gr.Group():
-        with gr.Row():             
-            sd_options = gr.Dropdown(["SD2.1", "SDXL"], label="SD options", value="SDXL", visible=True)
-            
-            
         
     with gr.Group():
         with gr.Row():
             with gr.Accordion('FreeU Parameters (feel free to adjust these parameters based on your prompt): ', open=False):
+                with gr.Row():             
+                    sd_options = gr.Dropdown(["SD2.1", "SDXL"], label="SD options", value="SDXL", visible=True)
                 with gr.Row():
                     b1 = gr.Slider(label='b1: backbone factor of the first stage block of decoder',
                                             minimum=1,
