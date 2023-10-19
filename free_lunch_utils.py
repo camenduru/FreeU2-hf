@@ -93,13 +93,36 @@ def register_free_upblock2d(model, b1=1.2, b2=1.4, s1=0.9, s2=0.2):
                 res_hidden_states_tuple = res_hidden_states_tuple[:-1]
                 #print(f"in free upblock2d, hidden states shape: {hidden_states.shape}")
                 
+                # # --------------- FreeU code -----------------------
+                # # Only operate on the first two stages
+                # if hidden_states.shape[1] == 1280:
+                #     hidden_states[:,:640] = hidden_states[:,:640] * self.b1
+                #     res_hidden_states = Fourier_filter(res_hidden_states, threshold=1, scale=self.s1)
+                # if hidden_states.shape[1] == 640:
+                #     hidden_states[:,:320] = hidden_states[:,:320] * self.b2
+                #     res_hidden_states = Fourier_filter(res_hidden_states, threshold=1, scale=self.s2)
+                # # ---------------------------------------------------------
+
                 # --------------- FreeU code -----------------------
                 # Only operate on the first two stages
                 if hidden_states.shape[1] == 1280:
-                    hidden_states[:,:640] = hidden_states[:,:640] * self.b1
+                    hidden_mean = hidden_states.mean(1).unsqueeze(1)
+                    B = hidden_mean.shape[0]
+                    hidden_max, _ = torch.max(hidden_mean.view(B, -1), dim=-1, keepdim=True) 
+                    hidden_min, _ = torch.min(hidden_mean.view(B, -1), dim=-1, keepdim=True)
+
+                    hidden_mean = (hidden_mean - hidden_min.unsqueeze(2).unsqueeze(3)) / (hidden_max - hidden_min).unsqueeze(2).unsqueeze(3)
+                    
+                    hidden_states[:,:640] = hidden_states[:,:640] * ((self.b1 - 1 ) * hidden_mean + 1)
                     res_hidden_states = Fourier_filter(res_hidden_states, threshold=1, scale=self.s1)
                 if hidden_states.shape[1] == 640:
-                    hidden_states[:,:320] = hidden_states[:,:320] * self.b2
+                    hidden_mean = hidden_states.mean(1).unsqueeze(1)
+                    B = hidden_mean.shape[0]
+                    hidden_max, _ = torch.max(hidden_mean.view(B, -1), dim=-1, keepdim=True) 
+                    hidden_min, _ = torch.min(hidden_mean.view(B, -1), dim=-1, keepdim=True)
+                    hidden_mean = (hidden_mean - hidden_min.unsqueeze(2).unsqueeze(3)) / (hidden_max - hidden_min).unsqueeze(2).unsqueeze(3)
+                    
+                    hidden_states[:,:320] = hidden_states[:,:320] * ((self.b2 - 1 ) * hidden_mean + 1)
                     res_hidden_states = Fourier_filter(res_hidden_states, threshold=1, scale=self.s2)
                 # ---------------------------------------------------------
 
