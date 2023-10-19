@@ -44,7 +44,7 @@ def infer(prompt, sd_options, seed, b1, b2, s1, s2):
         seed_prev = seed
 
     if run_baseline:
-        register_free_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
+        # register_free_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
         register_free_crossattn_upblock2d(pip, b1=1.0, b2=1.0, s1=1.0, s2=1.0)
        
         torch.manual_seed(seed)
@@ -55,7 +55,7 @@ def infer(prompt, sd_options, seed, b1, b2, s1, s2):
         sd_image = sd_image_prev
 
     
-    register_free_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
+    # register_free_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
     register_free_crossattn_upblock2d(pip, b1=b1, b2=b2, s1=s1, s2=s1)
 
     torch.manual_seed(seed)
