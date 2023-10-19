@@ -70,6 +70,33 @@ def infer(prompt, sd_options, seed, b1, b2, s1, s2):
 
 examples = [
     [
+        "RAW photo, subject, 8k uhd, dslr, soft lighting, high quality, clearly face, a futuristic visage with cybernetic enhancements seamlessly integrated into human features",
+    ],
+    [
+        "Sculpt a life-sized animal using discarded plastic bottles and metal scraps, highlighting it's beauty, highly detailed, 8k",
+    ],
+    [
+        "A robot standing in the rain reading newspaper, rusty and worn down,  in a dystopian cyberpunk street, photo-realistic , urbanpunk",
+    ],
+    [
+        "an outdoor full size sculpture using discarded car parts, highlighting it's beauty, highly detailed, 8k",
+    ],
+    [
+        "1955, moon landing, sci-fi, 8k, photorealistic, no atmosphere, earth in the sky, terraforming, style by Dean ellis",
+    ],
+    [
+        "a futuristic home , spaceship design,beautiful interior , high end design",
+    ],
+    [
+        "Hypnotic Maze, Fantasy Castle, Challenging Maze, Impossible Geometry, Mc Escher, Surreal Photography Within A Glass Sphere, Diorama, Beautiful Abundance, Medieval detailing , Digital Painting, Digital Illustration, Extreme Detail, Digital Art, 8k, Ultra Hd, Fantasy Art, Hyper Detailed, Hyperrealism, Elaborate, Vray, Unrea",
+    ],
+    [
+        "photo of half life combine standing outside city 17, glossy robot, rainy, rtx, octane, unreal",
+    ],
+    [
+        "new art : landscape into a Underground oasis in egypt. satara by johnny taylor, in the style of brushstroke-inmersive landscape, cinematic elegance, golden light, dark proportions, flowing brushwork, multilayered realism,  --ar 61:128 --s 750 --v 5.2",
+    ],
+    [
         "A horse galloping on the ocean",
     ],
     [
@@ -136,7 +163,7 @@ block = gr.Blocks(css='style.css')
 options = ['SD2.1']
 
 with block:
-    gr.Markdown("# SD 2.1 vs. FreeU")
+    gr.Markdown("# SD vs. FreeU")
     with gr.Group():
         with gr.Row(elem_id="prompt-container").style(mobile_collapse=False, equal_height=True):
             with gr.Column():
@@ -151,7 +178,7 @@ with block:
 
     with gr.Group():
         with gr.Row():             
-            sd_options = gr.Dropdown(["SD2.1", "SDXL"], label="SD options", value="SD2.1", visible=True)
+            sd_options = gr.Dropdown(["SD2.1", "SDXL"], label="SD options", value="SDXL", visible=True)
             
             
         
