@@ -2,15 +2,19 @@ import gradio as gr
 from PIL import Image  
 import torch
 
-from diffusers import StableDiffusionPipeline
+from diffusers import DiffusionPipeline
 from free_lunch_utils import register_free_upblock2d, register_free_crossattn_upblock2d
 
 
 
 model_id = "stabilityai/stable-diffusion-2-1"
 # model_id = "./stable-diffusion-2-1"
-pip_2_1 = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+pip_2_1 = DiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 pip_2_1 = pip_2_1.to("cuda")
+
+model_id = "stabilityai/stable-diffusion-xl-base-1.0"
+pip_XL = DiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+pip_XL = pip_XL.to("cuda")
 
 prompt_prev = None
 sd_options_prev = None
@@ -23,14 +27,14 @@ def infer(prompt, sd_options, seed, b1, b2, s1, s2):
     global seed_prev
     global sd_image_prev
 
-    # if sd_options == 'SD1.5':
-    #     pip = pip_1_5
-    # elif sd_options == 'SD2.1':
-    #     pip = pip_2_1
-    # else:
-    #     pip = pip_1_4
+    if sd_options == 'SD2.1':
+        pip = pip_2_1
+    elif sd_options == 'SDXL':
+        pip = pip_XL
+    else:
+        pip = pip_2_1
 
-    pip = pip_2_1
+    # pip = pip_2_1
 
     run_baseline = False
     if prompt != prompt_prev or sd_options != sd_options_prev or seed != seed_prev:
@@ -145,11 +149,10 @@ with block:
                     )
             btn = gr.Button("Generate image", scale=0)
         with gr.Row():             
-            sd_options = gr.Dropdown(["SD2.1"], label="SD options", value="SD2.1", visible=False)
+            sd_options = gr.Dropdown(["SD2.1", "SDXL"], label="SD options", value="SD2.1", visible=True)
             
             
         
-    
     with gr.Group():
         with gr.Row():
             with gr.Accordion('FreeU Parameters (feel free to adjust these parameters based on your prompt): ', open=False):
