@@ -148,6 +148,8 @@ with block:
                     container=False,
                     )
             btn = gr.Button("Generate image", scale=0)
+
+    with gr.Group():
         with gr.Row():             
             sd_options = gr.Dropdown(["SD2.1", "SDXL"], label="SD options", value="SD2.1", visible=True)
             
